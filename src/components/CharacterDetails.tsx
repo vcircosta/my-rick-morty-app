@@ -3,23 +3,7 @@ import { useQuery } from "@apollo/client";
 import { GET_CHARACTER_DETAILS } from "../graphql/queries";
 import { GetCharacterDetailsQuery } from "../graphql/generated";
 import { motion } from "framer-motion";
-import { styled } from "@mui/material/styles";
-import { Card, CardContent, Typography, Button, Box } from "@mui/material";
-
-const MotionCard = motion(Card);
-
-const StyledButton = styled(Button)(({ theme }) => ({
-  background: 'linear-gradient(45deg, #3DDC84 30%, #2196F3 90%)',
-  border: 0,
-  borderRadius: 3,
-  boxShadow: '0 3px 5px 2px rgba(61, 220, 132, .3)',
-  color: 'white',
-  padding: '0 30px',
-  '&:hover': {
-    background: 'linear-gradient(45deg, #2196F3 30%, #3DDC84 90%)',
-    boxShadow: `0 3px 5px 2px rgba(33, 203, 243, .3)`,
-  },
-}));
+import { Box, Typography } from "@mui/material";
 
 const CharacterDetails = ({ id, onClose }: { id: string; onClose: () => void }) => {
   const { data, loading, error } = useQuery<GetCharacterDetailsQuery>(GET_CHARACTER_DETAILS, {
@@ -46,49 +30,39 @@ const CharacterDetails = ({ id, onClose }: { id: string; onClose: () => void }) 
 
   return (
     <Box
-      sx={{
-        position: "fixed",
-        top: "10%",
-        left: "30%",
-      }}
+      className="fixed top-[10%] left-[30%]"
     >
-      <MotionCard
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        style={{
-          maxWidth: 400,
-          margin: "auto",
-          borderRadius: 12,
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-          background: 'linear-gradient(135deg, #e0f7fa, #b2ebf2)',
-        }}
+        className="max-w-md mx-auto rounded-xl shadow-md overflow-hidden bg-green-500"
       >
-        <CardContent>
-          <StyledButton onClick={onClose} variant="contained" style={{ marginBottom: "16px" }}>
+        <div className="p-6">
+          <button className="bg-black text-white py-2 px-4 rounded" onClick={onClose} style={{ fontFamily: "Creepster" }}>
             Fermer
-          </StyledButton>
-          <Typography variant="h5" component="h2" gutterBottom>
+          </button>
+          <Typography variant="h5" component="h2" className="mb-2 text-black" style={{ fontFamily: "Creepster" }}>
             {char?.name}
           </Typography>
-          <img src={char?.image || ""} alt={char?.name || ""} width="100%" style={{ borderRadius: "8px", marginBottom: "16px" }} />
-          <Typography variant="body1" gutterBottom>
+          <img src={char?.image || ""} alt={char?.name || ""} className="w-full rounded-md mb-4" />
+          <Typography variant="body1" className="mb-1 text-black">
             Espèce: {char?.species}
           </Typography>
-          <Typography variant="body1" gutterBottom>
+          <Typography variant="body1" className="mb-1 text-black">
             Genre: {char?.gender}
           </Typography>
-          <Typography variant="body1" gutterBottom>
+          <Typography variant="body1" className="mb-1 text-black">
             Statut: {char?.status}
           </Typography>
-          <Typography variant="body1" gutterBottom>
+          <Typography variant="body1" className="mb-1 text-black">
             Origine: {char?.origin?.name}
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" className="text-black">
             Localisation: {char?.location?.name}
           </Typography>
-        </CardContent>
-      </MotionCard>
+        </div>
+      </motion.div>
     </Box>
   );
 };
